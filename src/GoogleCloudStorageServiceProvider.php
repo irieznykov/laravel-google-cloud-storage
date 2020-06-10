@@ -18,9 +18,10 @@ class GoogleCloudStorageServiceProvider extends ServiceProvider
     /**
      * Create a Filesystem instance with the given adapter.
      *
-     * @param  \League\Flysystem\AdapterInterface $adapter
-     * @param  array $config
-     * @return \League\Flysystem\FlysystemInterfaceAdapterInterface
+     * @param \League\Flysystem\AdapterInterface $adapter
+     * @param array                              $config
+     *
+     * @return \League\Flysystem\Filesystem
      */
     protected function createFilesystem(AdapterInterface $adapter, array $config)
     {
@@ -38,10 +39,9 @@ class GoogleCloudStorageServiceProvider extends ServiceProvider
     /**
      * Create a cache store instance.
      *
-     * @param  mixed $config
-     * @return \League\Flysystem\Cached\CacheInterface
+     * @param mixed $config
      *
-     * @throws \InvalidArgumentException
+     * @return \Illuminate\Filesystem\Cache|\League\Flysystem\Cached\Storage\Memory
      */
     protected function createCacheStore($config)
     {
@@ -79,7 +79,8 @@ class GoogleCloudStorageServiceProvider extends ServiceProvider
     /**
      * Create a new StorageClient
      *
-     * @param  mixed $config
+     * @param mixed $config
+     *
      * @return \Google\Cloud\Storage\StorageClient
      */
     private function createClient($config)
@@ -92,12 +93,13 @@ class GoogleCloudStorageServiceProvider extends ServiceProvider
             ]);
         }
 
-        if (! is_array($keyFile)) {
+        if (!is_array($keyFile)) {
             $keyFile = [];
         }
+
         return new StorageClient([
             'projectId' => $config['project_id'],
-            'keyFile' => array_merge(["project_id" => $config['project_id']], $keyFile)
+            'keyFile' => $keyFile,
         ]);
     }
 
