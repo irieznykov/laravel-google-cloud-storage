@@ -8,12 +8,6 @@
       "email": "info@superbalist.com"
     }
   ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/irieznykov/flysystem-google-cloud-storage"
-    }
-  ],
   "require": {
     "php": ">=5.5.9",
     "illuminate/support": "^5.1|^6.0|^7.0",
